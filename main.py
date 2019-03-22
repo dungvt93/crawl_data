@@ -16,9 +16,6 @@ def load_data(file_name, sequence_length=10, split=0.8):
         data.append(data_all[i: i + sequence_length + 1])
     reshaped_data = np.array(data).astype('float64')
     np.random.shuffle(reshaped_data)
-    print(reshaped_data.shape)
-    print(reshaped_data)
-    exit()
     # 对x进行统一归一化，而y则不归一化
     x = reshaped_data[:, :-1]
     y = reshaped_data[:, -1]
@@ -34,13 +31,14 @@ def load_data(file_name, sequence_length=10, split=0.8):
 def build_model():
     # input_dim是输入的train_x的最后一个维度，train_x的维度为(n_samples, time_steps, input_dim)
     model = Sequential()
-    model.add(LSTM(input_dim=1, output_dim=50, return_sequences=True))
+    model.add(LSTM(50,input_shape=(None,1), return_sequences=True))
     print(model.layers)
     model.add(LSTM(100, return_sequences=False))
     model.add(Dense(output_dim=1))
     model.add(Activation('linear'))
 
     model.compile(loss='mse', optimizer='rmsprop')
+    model.summary()
     return model
 
 def train_model(train_x, train_y, test_x, test_y):
