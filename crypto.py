@@ -51,7 +51,7 @@ def load_data(file_name, sequence_length=10):
 
     #group data to shape (None,sequence_length+1,3)
     data = []
-    for i in range(len(close) - sequence_length - 1):
+    for i in range(len(close) - sequence_length ):
         data.append(data_origin[i: i + sequence_length + 1])
         # data.append([close[i: i + sequence_length + 1],volume[i: i + sequence_length + 1],cap[i: i + sequence_length + 1]])
 
@@ -60,7 +60,7 @@ def load_data(file_name, sequence_length=10):
 
 def generate_train_data(file_name, sequence_length=10,split = 0.8):
     reshaped_data, scaler = load_data(file_name,sequence_length)
-    np.random.shuffle(reshaped_data)
+    # np.random.shuffle(reshaped_data)
 
     # get sequence_length data of each  element
     x = reshaped_data[:,:-1]
@@ -107,30 +107,30 @@ def train_model(train_x, train_y, test_x, test_y):
     #     plt.legend(['predict', 'true'])
     # except Exception as e:
     #     print(e)
-    return predict, test_y, model
+    return predict, test_y, modelgit
 
 
 if __name__ == '__main__':
 
-    train_x, train_y, test_x, test_y, scaler = generate_train_data('btc.csv',100)
+    train_x, train_y, test_x, test_y, scaler = generate_train_data('btc.csv',20)
     train_x = np.reshape(train_x, (train_x.shape[0], train_x.shape[1],3))
     test_x = np.reshape(test_x, (test_x.shape[0], test_x.shape[1],3))
     predict_y, test_y, model = train_model(train_x, train_y, test_x, test_y)
-    # predict_y = scaler[-1].inverse_transform([[i] for i in predict_y])
-    # test_y = scaler[-1].inverse_transform([[i] for i in test_y])
+    predict_y = scaler[-1].inverse_transform([[i] for i in predict_y])
+    test_y = scaler[-1].inverse_transform([[i] for i in test_y])
     # fig2 = plt.figure(2)
     # plt.plot(predict_y, 'g:')
     # plt.plot(test_y, 'r-')
     # plt.show()
 
-    input, scaler= load_data('btc.csv',100)
+    input, scaler= load_data('btc.csv',20)
     # print(input)
     # print(input[-1][-1][0])
     # print(scaler[-1].inverse_transform([[input[-1][-1][0]]]))
     # exit()
     y = [[input[-1][-1][0]]]
     input = [input[-1][1:]]
-    input = np.reshape(input,(1,100,3))
+    input = np.reshape(input,(1,20,3))
     predict = model.predict(input)
     predict = scaler[-1].inverse_transform(predict)
     y = scaler[-1].inverse_transform(y)
