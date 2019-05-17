@@ -107,7 +107,7 @@ def train_model(train_x, train_y, test_x, test_y):
     #     plt.legend(['predict', 'true'])
     # except Exception as e:
     #     print(e)
-    return predict, test_y, modelgit
+    return predict, test_y, model
 
 
 if __name__ == '__main__':
