@@ -111,7 +111,6 @@ def train_model(train_x, train_y, test_x, test_y):
 
 
 if __name__ == '__main__':
-
     train_x, train_y, test_x, test_y, scaler = generate_train_data('btc.csv',20)
     train_x = np.reshape(train_x, (train_x.shape[0], train_x.shape[1],3))
     test_x = np.reshape(test_x, (test_x.shape[0], test_x.shape[1],3))
@@ -136,9 +135,6 @@ if __name__ == '__main__':
     y = scaler[-1].inverse_transform(y)
     print(predict)
     print(y)
-
-
-
 
 
 
